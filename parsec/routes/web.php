@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\CustomAuthController;
+use App\Http\Controllers\AccountController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,35 +18,25 @@ use Inertia\Inertia;
 |
 */
 
-Route::get(
-    '/',
-    function () {
-        return Inertia::render('Home', [
-            'title' => 'Homepage'
-        ]);
-    }
-)->name('homepage');
+Route::get('/', function () {
+    return Inertia::render('Landing', [
+        'title' => 'Homepage'
+    ]);
+})->name('homepage');
 
-Route::get(
-    '/about',
-    function () {
-        return Inertia::render(
-            'About',
-            [
-                'title' => 'About',
-            ]
-        );
-    }
-)->name('about');
+Route::get('/main', [Controller::class, 'index'])->middleware('auth');
+Route::get('/login', [CustomAuthController::class, 'login'])->name('login');
+Route::post('/login', [CustomAuthController::class, 'loginSubmit']);
 
-Route::get(
-    '/contact',
-    function () {
-        return Inertia::render(
-            'Contact',
-            [
-                'title' => 'Contact',
-            ]
-        );
-    }
-)->name('contact');
+Route::get('/register', [CustomAuthController::class, 'register'])->name('register');
+Route::post('/register', [CustomAuthController::class, 'registerSubmit']);
+
+Route::get('/logout', [CustomAuthController::class, 'signOut'])->name('logout');
+//Route::post('/logout', [CustomAuthController::class, 'logoutSubmit']);
+
+Route::get('/account/info', [CustomAuthController::class, 'fillInfo'])->name('account.info');
+Route::post('/account/info', [CustomAuthController::class, 'infoSubmit']);
+Route::post('/account/info/personal', [CustomAuthController::class, 'infoPersonalSubmit']);
+
+Route::get('/account', [AccountController::class, 'accountManager'])->name('account');
+

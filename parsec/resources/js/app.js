@@ -5,6 +5,8 @@ import { InertiaProgress } from "@inertiajs/progress";
 import { Ziggy } from "./ziggy";
 import { ZiggyVue } from "ziggy";
 
+import Layout from "./Shared/Layouts/Layout"
+import MyModal from "./Shared/Components/MyModal"
 
 
 InertiaProgress.init();
@@ -12,15 +14,24 @@ InertiaProgress.init();
 createInertiaApp({
     resolve: async (name) => {
         console.log(name)
-        return (await import(`./Pages/${name}`)).default;
+        const page = require(`./Pages/${name}`).default
+
+        if(page.layout === undefined){
+            page.layout = Layout
+        }
+        return page
+
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
             .component("Link", Link)
             .component("Head", Head)
+            .component("MyModal", MyModal)
             .mixin({ methods: { route } })
             .mount(el);
+
     },
 });
+
