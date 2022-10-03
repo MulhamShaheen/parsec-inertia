@@ -7,6 +7,7 @@ import { ZiggyVue } from "ziggy";
 
 import Layout from "./Shared/Layouts/Layout"
 import MyModal from "./Shared/Components/MyModal"
+import SideBar from "./Shared/Components/SideBar"
 
 
 InertiaProgress.init();
@@ -29,6 +30,7 @@ createInertiaApp({
             .component("Link", Link)
             .component("Head", Head)
             .component("MyModal", MyModal)
+            .component("SideBar", SideBar)
             .mixin({ methods: { route } })
             .mount(el);
 

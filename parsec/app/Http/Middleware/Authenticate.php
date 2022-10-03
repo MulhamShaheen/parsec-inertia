@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
-
+use Illuminate\Support\Facades\Route;
 use Illuminate\Auth\Middleware\Authenticate as Middleware;
 use Closure;
 use Illuminate\Http\Request;
@@ -20,6 +20,9 @@ class Authenticate extends Middleware
     {
 
         if (Auth::check()) {
+            if(!Auth::user()->info()->exists()){
+                return redirect(route('account.info', 'activist'));
+            }
             return $next($request);
 
         }

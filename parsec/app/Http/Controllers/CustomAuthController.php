@@ -70,19 +70,39 @@ class CustomAuthController extends Controller
             return Inertia::render('Auth/Register');
         }
 
-        return redirect()->route('account.info');
+        return redirect()->route('account.info', 'activist');
 
     }
 
-    public function fillInfo(Request $request)
+    public function fillInfo(Request $request, $role = null)
     {
-        $user = Auth::user();
-        $info = Info::where('user_id', $user->id)->get()->first();
 
-        return Inertia::render('Auth/Info', [
-            'user' => $user->toArray(),
-            'hasInfo' => $info ? $info->toArray() : false,
-        ]);
+        $user = Auth::user();
+
+        if(is_null($role)){
+            if($user->role != 0){
+                $role = $user->role == 1? "employer" : "activist";
+                return redirect()->route('account.info', $role);
+            }
+            return redirect()->route('homepage');
+        }
+
+
+        $info = $user->info()->get()->first();
+
+        if($role == "activist"){
+            return Inertia::render('Auth/Info/Activist', [
+                'hasInfo' => $info ? $info->toArray() : false,
+            ]);
+        }
+
+        else if($role == "employer"){
+            return Inertia::render('Auth/Info/Employer', [
+                'hasInfo' => $info ? $info->toArray() : false,
+            ]);
+        }
+
+
     }
 
     public function infoPersonalSubmit(Request $request)
@@ -106,8 +126,37 @@ class CustomAuthController extends Controller
             }
 //            dd($info);
             return redirect()->route('account.info', [
-                "user" => $user->toArray(),
-                'hasInfo' => $info->toArray(),
+                "role" => 'activist',
+            ]);
+
+        }
+
+    }
+
+    public function infoEmployerSubmit(Request $request)
+    {
+        if (Auth::check()) {
+//            dd($request->all());
+            $request->validate([
+                'title' => 'required',
+                'description' => 'required',
+            ]);
+            $data = $request->all();
+
+            $user = Auth::user();
+            $user->role = 1;
+            $user->save();
+            if ($user->info()->exists()) {
+                $info = $user->info()->get()->first();
+                $info->update($data);
+//                dd($info);
+            } else {
+                $data['user_id'] = $user->id;
+                $info = Employer::create($data);
+            }
+//            dd($info);
+            return redirect()->route('account.info', [
+                'role' => 'employer',
             ]);
 
         }
@@ -207,7 +256,7 @@ class CustomAuthController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'prof_picture' => isset($data['prof_picture']) ? time() . $data['prof_picture']->getClientOriginalName() : "default.jpg",
-            'role' => $data['role'] ?? "2",
+            'role' => $data['role'] ?? "0",
         ]);
     }
 
@@ -282,18 +331,18 @@ class CustomAuthController extends Controller
 
     public function updateProfPicture(Request $request)
     {
-        if ($request->file('prof_picture')) {
+        if ($request->file('photo')) {
             $user = Auth::user();
             $now = time();
-            $file = $request->file('prof_picture');
+            $file = $request->file('photo');
             $filename = $now . $file->getClientOriginalName();
             $file->storeAs('/', $filename, 'public_profiles');
 
-            $user->prof_picture = $now . $request['prof_picture']->getClientOriginalName();
+            $user->prof_picture = $now . $request['photo']->getClientOriginalName();
 
             $user->save();
         }
-        return Redirect('account');
+        return redirect()->route('account.info');
     }
 
     public function updateProfName(Request $request)

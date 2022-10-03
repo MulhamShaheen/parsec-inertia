@@ -98,6 +98,9 @@ class User extends Authenticatable
     }
 
     public function info(){
+        if($this->role == 1){
+            return $this->aboutEmployer();
+        }
         return $this->hasOne(Info::class,'user_id','id');
     }
 

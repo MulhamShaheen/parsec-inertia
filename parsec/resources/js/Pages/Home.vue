@@ -20,6 +20,9 @@
     </MyModal>
 
     <h1>This is: {{ $page.props.title }}</h1>
+    <pre>
+      {{amoCrm}}
+    </pre>
 
 
   </div>
@@ -27,6 +30,9 @@
 <script>
 import MyModal from "../Shared/Components/MyModal";
 export default{
-  components: {MyModal}
+  components: {MyModal},
+  props:{
+    amoCrm: Object
+  }
 }
 </script>

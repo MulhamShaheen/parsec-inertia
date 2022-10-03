@@ -1,4 +1,20 @@
 <template>
+  <h1>asdassdass</h1>
+  <ul class="flex flex-wrap text-l font-medium text-center text-gray-500 dark:text-gray-400">
+    <li class="mr-2">
+      <Link :href="route('info.activist')" class="inline-block py-3 px-4 text-white bg-blue-600 rounded-lg "
+            :class="{'active': $page.component === 'Auth/Info/Activist'}">
+        <span class="ml-3">Активист</span>
+      </Link>
+<!--      <a href="#" class="inline-block py-3 px-4 text-white bg-blue-600 rounded-lg active" aria-current="page">Tab 1</a>-->
+    </li>
+    <li class="mr-2">
+      <Link :href="route('info.employer')" class="inline-block py-3 px-4 text-white bg-blue-600 rounded-lg "
+            :class="{'active': $page.component === 'Auth/Info/Employer'}">
+        <span class="ml-3">Организации</span>
+      </Link>
+    </li>
+  </ul>
   <div class="m-8">
     <div class="m-8">
       <div class="md:grid md:grid-cols-3 md:gap-6">
@@ -10,7 +26,6 @@
         </div>
         <div class="mt-5 md:col-span-2 md:mt-0">
           <form action="#" method="POST">
-
             <div class="shadow sm:overflow-hidden sm:rounded-md">
               <div class="space-y-6 bg-white px-4 py-5 sm:p-6">
                 <div class="grid grid-cols-3 gap-6">

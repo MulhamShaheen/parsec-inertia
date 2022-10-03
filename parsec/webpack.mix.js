@@ -20,6 +20,6 @@ mix.setPublicPath('/')
     .extract()
     .postCss('resources/css/app.css',
         'css/',
-        [require("tailwindcss")]
+        [require("tailwindcss"),require("autoprefixer"),]
     ).version();
 
