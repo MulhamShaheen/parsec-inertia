@@ -81,8 +81,12 @@ class CustomAuthController extends Controller
 
         if(is_null($role)){
             if($user->role != 0){
-                $role = $user->role == 1? "employer" : "activist";
-                return redirect()->route('account.info', $role);
+                $role = $user->role == 1? "Employer" : "Activist";
+                $info = $user->info()->get()->first();
+//                return redirect()->route('account.info', $role);
+                return Inertia::render('Auth/Account/Info/'.$role,[
+                    'hasInfo' => $info ? $info->toArray() : false,
+                ]);
             }
             return redirect()->route('homepage');
         }
