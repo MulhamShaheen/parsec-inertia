@@ -6,7 +6,9 @@ use Inertia\Inertia;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DataSferaController;
+use App\Http\Controllers\ReplyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,6 +52,8 @@ Route::get('/logout', [CustomAuthController::class, 'signOut'])->name('logout');
 
 
 Route::get('/account/info/{role?}', [CustomAuthController::class, 'fillInfo'])->name('account.info');
+
+
 //Route::get('/account/info/{}', [CustomAuthController::class, 'fillInfo'])->name('account.info.employer');
 
 
@@ -61,3 +65,16 @@ Route::post('/updateProfPicture', [CustomAuthController::class, 'updateProfPictu
 
 
 Route::get('/account', [AccountController::class, 'accountManager'])->name('account');
+Route::get('/account/project', [AccountController::class, 'viewProjects'])->name('account.projects');
+
+Route::get('/project/create', [ProjectController::class, 'createProject'])->name('project.create');
+Route::post('/project/create', [ProjectController::class, 'submitProject'])->name('project.submit');
+
+Route::get('/projects/list', [ProjectController::class, 'listProjects'])->name('projects.list');
+Route::get('/project/view/{id}', [ProjectController::class, 'viewProject'])->name('project.view');
+
+Route::post('/project/reply/{id}', [ReplyController::class, 'sendReply'])->name('project.reply');
+
+Route::get('/reply/view/{id}', [ReplyController::class, 'viewReply'])->name('reply.view');
+
+

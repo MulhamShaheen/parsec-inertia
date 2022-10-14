@@ -20,6 +20,7 @@ class CreateProjectsTable extends Migration
             $table->string('description')->nullable();
             $table->string('employer_id');
             $table->string('director')->nullable();
+            $table->string('status')->default(0);
         });
     }
 

@@ -21,6 +21,12 @@
                 <span class="ml-3">Личная информация</span>
               </Link>
             </li>
+            <li>
+              <Link :href="route('account.projects')" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white dark:hover:bg-gray-700"
+                    :class="{'text-gray-100 bg-indigo-600 hover:bg-indigo-600 hover:text-white': $page.component === 'Auth/Account/Projects/Activist'}">
+                <span class="ml-3">Участие в проектах</span>
+              </Link>
+            </li>
           </template>
 
           <template #lower>

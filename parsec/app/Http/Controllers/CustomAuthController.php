@@ -120,6 +120,9 @@ class CustomAuthController extends Controller
             $data = $request->all();
 
             $user = Auth::user();
+            $user->role = 2;
+            $user->save();
+
             if ($user->info()->exists()) {
                 $info = $user->info()->get()->first();
                 $info->update($data);

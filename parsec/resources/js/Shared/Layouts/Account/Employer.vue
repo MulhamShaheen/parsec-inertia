@@ -1,5 +1,5 @@
 <template>
-  <Header auth="auth">
+  <Header :auth="auth">
 
   </Header>
   <div class="m-8">
@@ -23,8 +23,8 @@
             </li>
             <li>
               <Link :href="route('account.projects')" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white dark:hover:bg-gray-700"
-                    :class="{'text-gray-100 bg-indigo-600 hover:bg-indigo-600 hover:text-white': $page.component === 'Auth/Account/Info/Employer'}">
-                <span class="ml-3">Информация об организации</span>
+                    :class="{'text-gray-100 bg-indigo-600 hover:bg-indigo-600 hover:text-white': $page.component === 'Auth/Account/Projects/Employer'}">
+                <span class="ml-3">Проекты</span>
               </Link>
             </li>
           </template>

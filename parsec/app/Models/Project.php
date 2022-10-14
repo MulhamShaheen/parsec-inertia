@@ -34,6 +34,7 @@ class Project extends Model
         'employer_id',
         'director',
         'icon',
+        'status'
     ];
 
     public function users()
