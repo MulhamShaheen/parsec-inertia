@@ -34,29 +34,10 @@ class AccountController extends Controller
         $resume = null;
         $projects = [];
         $data = [];
-//        if ($user->resumes()->exists()) {
-//            $resume = $user->resumes()->orderBy('created_at', 'DESC')->get()[0];
-//        }
-//
-//        if ($info->major()->exists()) {
-//            $major = $info->major()->get()[0];
-//        }
-//
-//        if ($info->faculty()->exists()) {
-//            $faculty = $info->faculty()->get()[0];
-//        }
-//
-//        if ($user->projects()->exists())
-//            $projects = $user->projects()->get()->all();
-//
-//        if ($user->replies()->exists())
-//            $data['replies'] = $user->replies()->get();
+
 
         $data['info'] = $info?  $info->toArray(): null ;
-//        $data['major'] = $major?  $major->toArray(): null;
-//        $data['faculty'] = $faculty?  $faculty->toArray(): null;
-//        $data['resume'] = $resume?  $resume->toArray(): null;
-//        $data['projects'] = $projects?  $projects->toArray(): null;
+
 
         return Inertia::render('Auth/Account/Activist',[
             'info'=>$data
@@ -74,6 +55,32 @@ class AccountController extends Controller
 
         return Inertia::render('Auth/Account/Projects/'.$role,[
             "hasProjects" => $hasProjects,
+        ]);
+    }
+
+    public function viewReplies(Request $request)
+    {
+
+        $user = Auth::user();
+        $role = $user->role == 1? "Employer" : "Activist";
+        $replies = [];
+
+        if($role == "Activist" && $user->replies()->exists()){
+            $replies = $user->replies()->get()->all();
+        }
+        else if($role == "Employer"){
+            $replies = $user->replies();
+        }
+        foreach ($replies as $reply) {
+            $user = $reply->user()->get()->first();
+            $info = $user->info()->get()->first();
+            $project = $reply->project()->get()->first();
+            $reply->user = $info->lastname . " " . $info->firstname . " " . $info->middlename ;
+            $reply->user_icon = $user->prof_picture;
+            $reply->project_icon = $project->icon;
+        }
+        return Inertia::render('Auth/Account/Replies/'.$role,[
+            "replies" => $replies,
         ]);
     }
 }

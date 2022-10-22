@@ -13,7 +13,7 @@
         </div>
         <div class="w-3/4 m-4 p-2">
           <div class="flex content-between">
-            <button class="rounded bg-indigo-600 text-white p-2" :class="{'bg-gray-500' : form.processing}" :disabled="form.processing" data-modal-toggle="reply-model">
+            <button class="rounded p-2" :class="[form.processing || repliedTo !== false? 'bg-gray-200 ' : 'bg-indigo-600 text-white'] " :disabled="form.processing || repliedTo !== false" data-modal-toggle="reply-model">
               Откликнуться
             </button>
           </div>
@@ -72,6 +72,7 @@ export default {
     auth: Object,
     project: Object,
     employer: Object,
+    repliedTo: Object,
   },
   setup(props) {
     const form = useForm({

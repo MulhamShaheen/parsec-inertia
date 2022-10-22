@@ -15,7 +15,6 @@
           </div>
         </div>
         <div class="w-3/4 m-4 p-2">
-
         </div>
       </div>
     </div>
@@ -25,6 +24,9 @@
              :src="'/public/uploads/profiles/' + employer.icon" alt="">
         <div class="p-4">
           <h2 class="text-3xl">{{ employer.title }}</h2>
+        </div>
+        <div>
+          <Link :href="route('project.edit', project.id)"/>
         </div>
       </div>
     </div>

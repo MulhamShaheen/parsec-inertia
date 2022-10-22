@@ -39,7 +39,7 @@ class ProjectController extends Controller
 
         $employer->icon = $icon;
 
-        if ($employer->id == $user->info()->get()[0]->id) {
+        if ($role == "Employer" && $employer->id == $user->info()->get()[0]->id) {
             $role = "Author";
             $replies = $project->replies()->get()->all();
             foreach ($replies as $reply){
@@ -57,16 +57,15 @@ class ProjectController extends Controller
             ]);
         }
 
+        if($role == "Activist"){
+            $reply = $project->replies()->where('user_id', $user->id)->get()->first();
 
-
-//        if($user->isEmployer()){
-//            $data['replies'] = $project->replies()->get();
-//        }
-//        return view('projects.view',compact('id','data'));
+        }
 
         return Inertia::render('Projects/View/' . $role, [
             "project" => $project,
             "employer" => $employer,
+            "repliedTo" => $reply ?? false,
         ]);
     }
 

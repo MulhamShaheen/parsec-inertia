@@ -105,6 +105,14 @@ class User extends Authenticatable
     }
 
     public function replies(){
+        if($this->role == 1){
+            $projects = $this->projects()->get()->all();
+            $replies = [];
+            foreach ($projects as $project){
+                $replies += $project->replies()->get()->all();
+            }
+            return $replies;
+        }
         return $this->hasMany(Reply::class);
     }
 }

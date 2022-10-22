@@ -9,6 +9,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\DataSferaController;
 use App\Http\Controllers\ReplyController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,12 +67,15 @@ Route::post('/updateProfPicture', [CustomAuthController::class, 'updateProfPictu
 
 Route::get('/account', [AccountController::class, 'accountManager'])->name('account');
 Route::get('/account/project', [AccountController::class, 'viewProjects'])->name('account.projects');
+Route::get('/account/replies', [AccountController::class, 'viewReplies'])->name('account.replies');
 
 Route::get('/project/create', [ProjectController::class, 'createProject'])->name('project.create');
 Route::post('/project/create', [ProjectController::class, 'submitProject'])->name('project.submit');
 
 Route::get('/projects/list', [ProjectController::class, 'listProjects'])->name('projects.list');
 Route::get('/project/view/{id}', [ProjectController::class, 'viewProject'])->name('project.view');
+Route::get('/project/edit/{id}', [AuthorController::class, 'editProject'])->middleware('project.author')->name('project.edit');
+Route::post('/project/edit/{id}', [AuthorController::class, 'updateProject'])->name('project.update');
 
 Route::post('/project/reply/{id}', [ReplyController::class, 'sendReply'])->name('project.reply');
 

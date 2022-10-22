@@ -36,6 +36,10 @@
                 <span class="ml-4">Upgrade to Pro</span>
               </a>
             </li>
+            <Link :href="route('account.replies')" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white dark:hover:bg-gray-700"
+                  :class="{'text-gray-100 bg-indigo-600 hover:bg-indigo-600 hover:text-white': $page.component === 'Auth/Account/Replies/Activist'}">
+              <span class="ml-3">Мои отклики</span>
+            </Link>
           </template>
 
         </SideBar>
